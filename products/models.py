@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from datetime import timedelta
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -45,6 +47,10 @@ class Product(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.IntegerField(default=1)
 
+    featured = models.BooleanField(default=False)
+    best_seller = models.BooleanField(default=False)
+    shop_collection = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -53,3 +59,24 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def featured_products(cls):
+        return cls.objects.filter(featured=True)
+
+    @classmethod
+    def new_arrivals(cls):
+        one_month_ago = timezone.now() - timedelta(days=30)
+        return cls.objects.filter(created_at__gte=one_month_ago)
+
+    @classmethod
+    def shop_collection_products(cls):
+        return cls.objects.filter(shop_collection=True)
+
+    @classmethod
+    def best_seller_products(cls):
+        return cls.objects.filter(best_seller=True)
+
+    @classmethod
+    def products_by_category(cls, category_name):
+        return cls.objects.filter(category__name=category_name)
