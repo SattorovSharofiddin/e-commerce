@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "corsheaders",
     "drf_spectacular",
+    "django_filters",
+
     # Local apps
     "users",
     "products",
