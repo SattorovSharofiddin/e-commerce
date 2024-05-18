@@ -8,10 +8,10 @@ WORKDIR /code
 
 COPY ./requirements.txt .
 
-RUN apt-get update -y && \
-    apt-get install -y netcat && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN --mount=type=cache,id=custom-pip,target=/root/.cache/pip pip install -r requirements.txt && \
+    apt-get update -y && \
+    apt-get install -y netcat
+#RUN --mount=type=cache,id=custom-pip,target=/root/.cache/pip pip install -r /app/requirements.txt && pip install gunicorn
 
 COPY ./entrypoint.sh .
 RUN chmod +x /code/entrypoint.sh

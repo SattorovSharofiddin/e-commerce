@@ -28,7 +28,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Product.objects.all()
-    parser_classes = (MultiPartParser, FormParser, FileUploadParser)
+    # parser_classes = (FormParser, FileUploadParser)
     filter_backends = (DjangoFilterBackend, OrderingFilter, SearchFilter)
     filterset_class = ProductFilter
 
