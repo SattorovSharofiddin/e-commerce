@@ -21,6 +21,9 @@ class PaymentSerializer(serializers.ModelSerializer):
             "status",
             "payment_option",
             "order",
+            "card_number",
+            "expires_at",
+            "cvv",
             "created_at",
             "updated_at",
         )
@@ -42,6 +45,9 @@ class PaymentOptionSerializer(serializers.ModelSerializer):
             "status",
             "payment_option",
             "order",
+            "card_number",
+            "expires_at",
+            "cvv",
             "created_at",
             "updated_at",
         )

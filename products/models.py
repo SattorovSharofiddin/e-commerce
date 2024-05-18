@@ -46,6 +46,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to=product_image_path, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.IntegerField(default=1)
+    discount = models.DecimalField(
+        decimal_places=2, max_digits=5, blank=True, null=True
+    )
 
     featured = models.BooleanField(default=False)
     best_seller = models.BooleanField(default=False)
@@ -66,8 +69,8 @@ class Product(models.Model):
 
     @classmethod
     def new_arrivals(cls):
-        one_month_ago = timezone.now() - timedelta(days=30)
-        return cls.objects.filter(created_at__gte=one_month_ago)
+        week_ago = timezone.now() - timedelta(days=7)
+        return cls.objects.filter(created_at__gte=week_ago)
 
     @classmethod
     def shop_collection_products(cls):
@@ -80,3 +83,10 @@ class Product(models.Model):
     @classmethod
     def products_by_category(cls, category_name):
         return cls.objects.filter(category__name=category_name)
+
+    @property
+    def discounted_price(self):
+        if self.discount:
+            return self.price - self.discount
+
+        return self.price

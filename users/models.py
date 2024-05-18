@@ -73,9 +73,9 @@ class PhoneNumber(models.Model):
 
     def check_verification(self, security_code):
         if (
-            not self.is_security_code_expired()
-            and security_code == self.security_code
-            and not self.is_verified
+                not self.is_security_code_expired()
+                and security_code == self.security_code
+                and not self.is_verified
         ):
             self.is_verified = True
             self.save()
@@ -117,7 +117,7 @@ class Address(models.Model):
     country = CountryField()
     city = models.CharField(max_length=100)
     street_address = models.CharField(max_length=100)
-    apartment_address = models.CharField(max_length=100)
+    # apartment_address = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

@@ -17,12 +17,16 @@ class Payment(models.Model):
 
     # Payment options
     PAYPAL = "P"
-    STRIPE = "S"
+    PAY_BY_CARD = "PC"
+    # STRIPE = "S"
 
-    PAYMENT_CHOICES = ((PAYPAL, _("paypal")), (STRIPE, _("stripe")))
+    PAYMENT_CHOICES = ((PAYPAL, _("paypal")), (PAY_BY_CARD, _("pay by card")))
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PENDING)
-    payment_option = models.CharField(max_length=1, choices=PAYMENT_CHOICES)
+    card_number = models.CharField(max_length=16, blank=True)
+    expires_at = models.DateTimeField(blank=True, null=True)
+    cvv = models.CharField(max_length=4, blank=True)
+    payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
     order = models.OneToOneField(
         Order, related_name="payment", on_delete=models.CASCADE
     )

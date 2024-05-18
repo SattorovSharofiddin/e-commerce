@@ -1,5 +1,5 @@
 from rest_framework import permissions, viewsets
-
+from rest_framework.parsers import FormParser, MultiPartParser
 from products.models import Product, ProductCategory
 from products.permissions import IsSellerOrAdmin
 from products.serializers import (
@@ -25,6 +25,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Product.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_serializer_class(self):
         if self.action in ("create", "update", "partial_update", "destroy"):
